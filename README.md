@@ -1,2 +1,2 @@
-# Temas_estudio_matem-ticas_discretas
+# Temas_estudio_matemáticas_discretas
 Una aplicacion web dedicada al aprendizaje y practica de matemáticas discretas
