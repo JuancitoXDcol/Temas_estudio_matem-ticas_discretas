@@ -1,6 +1,6 @@
 /**
- * Proyecto: Temas de Estudio de Matemáticas Discretas[cite: 1]
- * Archivo: main.js (Con Sistema de Validación y Pruebas Automatizadas)
+ * Proyecto: Temas de Estudio de Matemáticas Discretas
+ * Archivo: main.js (Con Sistema de Validación Interactivo y Pruebas Automatizadas)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,16 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     switch (currentPage) {
         case 'arboles.htm':
-            initArboles();
+            if (typeof initArboles === 'function') initArboles();
             break;
         case 'criptografia.htm':
-            initCriptografia();
+            if (typeof initCriptografia === 'function') initCriptografia();
             break;
         case 'grafos.htm':
-            initGrafos();
+            if (typeof initGrafos === 'function') initGrafos();
             break;
         case 'logica_boole.htm':
-            initLogicaBoole();
+            if (typeof initLogicaBoole === 'function') initLogicaBoole();
             break;
         default:
             console.log("Página principal o de pruebas detectada.");
@@ -27,7 +27,52 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-   UTILIDAD GLOBAL DE VERIFICACIÓN DE ACTIVIDADES
+   FUNCIÓN GLOBAL DE VERIFICACIÓN PARA EJERCICIOS DE OPCIÓN MÚLTIPLE (HTML)
+   ========================================================================== */
+window.verificarRespuesta = function(boton, esCorrecta, mensaje) {
+    // 1. Obtener el contenedor principal del ejercicio actual
+    const contenedorTrivia = boton.closest('.trivia-box');
+    if (!contenedorTrivia) return;
+
+    const botones = contenedorTrivia.querySelectorAll('.opcion');
+    const feedback = contenedorTrivia.querySelector('.feedback');
+
+    // 2. Deshabilitar todas las opciones del ejercicio para congelar la elección
+    botones.forEach(btn => {
+        btn.disabled = true;
+    });
+
+    // 3. Evaluar la respuesta y aplicar estilos (Verde / Rojo)
+    if (esCorrecta) {
+        boton.classList.add('correcta');
+        if (feedback) {
+            feedback.className = 'feedback feedback-correcto';
+            feedback.innerText = mensaje;
+        }
+    } else {
+        boton.classList.add('incorrecta');
+
+        // Opcional: resaltar también cuál era la correcta para ayudar al estudiante
+        botones.forEach(btn => {
+            if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('true')) {
+                btn.classList.add('correcta');
+            }
+        });
+
+        if (feedback) {
+            feedback.className = 'feedback feedback-incorrecto';
+            feedback.innerText = 'Incorrecto. ' + mensaje;
+        }
+    }
+
+    // 4. Si MathJax está disponible, refrescar fórmulas que aparezcan en el feedback
+    if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
+        MathJax.typesetPromise();
+    }
+};
+
+/* ==========================================================================
+   UTILIDAD GLOBAL DE VERIFICACIÓN DE ACTIVIDADES DE TEXTO / INPUT
    ========================================================================== */
 const ValidadorActividad = {
     mostrarFeedback: (elementoId, esCorrecto, mensajeCustom = "") => {
