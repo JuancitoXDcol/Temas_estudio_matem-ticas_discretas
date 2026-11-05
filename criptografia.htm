@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matemáticas Discretas</title>
+  <link rel="stylesheet" href="style-tema.css">
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.htm" class="btn-volver">← Volver al Menú Principal</a>
+    <h1>Criptografía y Teoría de Números</h1>
+    <p>Aritmética modular, primos, RSA y teoría de códigos para detección de errores.</p>
+  </header>
+
+  <main class="container">
+
+    <!-- SUBTEMA 1 -->
+    <section class="seccion-tema">
+      <h2>1. Cifrado RSA Básico</h2>
+      
+      <div class="bloque-contenido">
+        <h3>Explicación Matemática</h3>
+        <p>RSA se basa en la dificultad computacional de la factorización de enteros grandes y las propiedades del **Teorema de Euler** ($a^{\phi(n)} \equiv 1 \pmod n$).</p>
+        <ol>
+          <li>Seleccionar primos grandes $p$ y $q$. Calcular $n = p \cdot q$ y la función Phi de Euler $\phi(n) = (p-1)(q-1)$.</li>
+          <li>Elegir clave pública $e$ tal que $1 < e < \phi(n)$ y $\gcd(e, \phi(n)) = 1$.</li>
+          <li>Calcular clave privada $d \equiv e^{-1} \pmod{\phi(n)}$ mediante el **Algoritmo Extendido de Euclides** ($e \cdot d \equiv 1 \pmod{\phi(n)}$).</li>
+          <li><strong>Cifrado:</strong> $C = M^e \pmod n$. <strong>Descifrado:</strong> $M = C^d \pmod n$.</li>
+        </ol>
+      </div>
+
+      <div class="bloque-contenido bloque-ejemplo">
+        <h3>Ejemplo Aplicado</h3>
+        <p>Generación de claves simples con $p = 61$ y $q = 53$:</p>
+        <p>$n = 61 \times 53 = 3233$, $\phi(n) = (60)(52) = 3120$.</p>
+        <p>Elegimos $e = 17$ (ya que $\gcd(17, 3120) = 1$). Calculando el inverso inverso modular $d$: $17 \cdot d \equiv 1 \pmod{3120} \implies d = 2753$.</p>
+        <p>Para cifrar el mensaje $M = 65$:</p>
+        <p>$C = 65^{17} \pmod{3233} = 2790$.</p>
+        <p>Para descifrar: $M = 2790^{2753} \pmod{3233} = 65$.</p>
+      </div>
+
+      <div class="bloque-contenido">
+        <h3>Ejercicios de Práctica</h3>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 1.1:</strong> Dados $p=3$ y $q=11$, el módulo es $n=33$ y $\phi(n)=20$. Si elegimos $e=3$, ¿cuál es el valor del exponente privado $d$?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, false, '3 x 3 = 9 no es congruente con 1 mod 20.')">d = 3</button>
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! 3 * 7 = 21, y 21 mod 20 = 1. Por ende d = 7.')">d = 7</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, '3 x 11 = 33 no es congruente con 1 mod 20.')">d = 11</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 1.2:</strong> ¿Qué concepto de la teoría de números garantiza la reversibilidad del cifrado y descifrado en RSA?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! El Teorema de Euler establece que M^(e*d) = M^(k*phi(n)+1) = M (mod n).')">Teorema de Euler y el Inverso Modular</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'El Teorema de Grafos no aplica a aritmética modular.')">Teorema de Kuratowski</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'El algoritmo de Dijkstra calcula rutas cortas, no inversos modulares.')">Algoritmo de Dijkstra</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBTEMA 2 -->
+    <section class="seccion-tema">
+      <h2>2. Códigos de Detección y Corrección de Errores (Hamming)</h2>
+      
+      <div class="bloque-contenido">
+        <h3>Explicación Matemática</h3>
+        <p>Los códigos de bloque lineales agregan redundancia mediante bits de paridad. La **Distancia de Hamming** $d_H(x, y)$ es el número de posiciones en las que dos vectores de bits difieren.</p>
+        <ul>
+          <li>Para detectar hasta $k$ errores, se requiere una distancia mínima $d_{\min} \ge k + 1$.</li>
+          <li>Para corregir hasta $t$ errores, se requiere una distancia mínima $d_{\min} \ge 2t + 1$.</li>
+          <li><strong>Código de Hamming (7,4):</strong> Utiliza 4 bits de datos y 3 bits de paridad ubicados en posiciones potencias de 2 ($1, 2, 4$). Permite corregir errores de $1$ bit ($t=1$) ya que $d_{\min} = 3$.</li>
+        </ul>
+      </div>
+
+      <div class="bloque-contenido bloque-ejemplo">
+        <h3>Ejemplo Aplicado</h3>
+        <p>Transmisión del dato $D = 1011$ con Hamming (7,4):</p>
+        <p>Posiciones de bits: $P_1, P_2, D_3, P_4, D_5, D_6, D_7$. Colocando datos: $\underline{\text{ }} \; \underline{\text{ }} \; 1 \; \underline{\text{ }} \; 0 \; 1 \; 1$.</p>
+        <ul>
+          <li>$P_1$ (cubre pos 1,3,5,7): $P_1 \oplus 1 \oplus 0 \oplus 1 = 0 \implies P_1 = 0$.</li>
+          <li>$P_2$ (cubre pos 2,3,6,7): $P_2 \oplus 1 \oplus 1 \oplus 1 = 0 \implies P_2 = 1$.</li>
+          <li>$P_4$ (cubre pos 4,5,6,7): $P_4 \oplus 0 \oplus 1 \oplus 1 = 0 \implies P_4 = 0$.</li>
+        </ul>
+        <p>Vector transmitido: <strong>0 1 1 0 0 1 1</strong>.</p>
+      </div>
+
+      <div class="bloque-contenido">
+        <h3>Ejercicios de Práctica</h3>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 2.1:</strong> ¿Cuál es la distancia de Hamming entre las palabras de código binario $A = 101101$ y $B = 100111$?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Revisa las posiciones 3 y 5.')">1</button>
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Difieren en la 3ra posición (1 vs 0) y en la 5ta posición (0 vs 1). Distancia = 2.')">2</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Contaste más diferencias de las existentes.')">3</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 2.2:</strong> Si un esquema de codificación tiene una distancia mínima $d_{\min} = 5$, ¿cuántos errores de bits por palabra puede CORREGIR garantizadamente?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Por fórmula 2t + 1 <= d_min: 2(2) + 1 = 5 <= 5. Corrige hasta 2 errores.')">2 errores</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, '4 corresponde al número de errores que puede DETECTAR (d_min - 1).')">4 errores</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, '5 es la distancia total, no la capacidad de corrección.')">5 errores</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Proyecto Final Tercer Corte - Matemáticas Discretas</p>
+  </footer>
+
+</body>
+</html>

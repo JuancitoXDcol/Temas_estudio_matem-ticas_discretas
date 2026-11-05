@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matemáticas Discretas</title>
+  <link rel="stylesheet" href="style-tema.css">
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.htm" class="btn-volver">← Volver al Menú Principal</a>
+    <h1>Teoría de Grafos</h1>
+    <p>Modelado discreto de relaciones, optimización de redes y algoritmos de recorrido.</p>
+  </header>
+
+  <main class="container">
+
+    <!-- SUBTEMA 1 -->
+    <section class="seccion-tema">
+      <h2>1. Rutas más cortas en un mapa (Dijkstra y Floyd-Warshall)</h2>
+      
+      <div class="bloque-contenido">
+        <h3>Explicación Matemática</h3>
+        <p>En un grafo pesado $G = (V, E, w)$, la ruta más corta busca un camino $P$ entre vértices $u, v \in V$ tal que la suma de los pesos de las aristas $\sum_{e \in P} w(e)$ sea mínima.</p>
+        <ul>
+          <li><strong>Algoritmo de Dijkstra:</strong> Algoritmo ávido (greedy) con complejidad $O(\vert{}E\vert{} + \vert{}V\vert{}\log\vert{}V\vert{})$ usando colas de prioridad. Funciona asignando etiquetas de distancia provisionales y permanentes a los vértices. Exige que $\forall e \in E, w(e) \ge 0$.</li>
+          <li><strong>Algoritmo de Floyd-Warshall:</strong> Algoritmo de programación dinámica con complejidad $O(\vert{}V\vert{}^3)$ que calcula la matriz de distancias más cortas entre todos los pares de vértices $(u, v)$, permitiendo pesos negativos pero sin ciclos negativos.</li>
+        </ul>
+      </div>
+
+      <div class="bloque-contenido bloque-ejemplo">
+        <h3>Ejemplo Aplicado</h3>
+        <p>Dado un grafo con vértices $V = \{A, B, C, D\}$ y aristas pesadas $w(A,B)=4$, $w(A,C)=2$, $w(C,B)=1$, $w(B,D)=5$, $w(C,D)=8$:</p>
+        <p><strong>Cálculo por Dijkstra desde $A$:</strong></p>
+        <ol>
+          <li>Distancia inicial: $d(A)=0, d(B)=\infty, d(C)=\infty, d(D)=\infty$.</li>
+          <li>Visitar $A$: actualiza $d(B)=4, d(C)=2$. Menor distancia permanente: $C$.</li>
+          <li>Visitar $C$: relaja aristas. $d(B) = \min(4, d(C)+w(C,B)) = \min(4, 2+1) = 3$. $d(D) = \min(\infty, 2+8) = 10$. Menor permanente: $B$.</li>
+          <li>Visitar $B$: $d(D) = \min(10, d(B)+w(B,D)) = \min(10, 3+5) = 8$.</li>
+        </ol>
+        <p>La distancia mínima de $A$ a $D$ es **$8$** mediante el camino $A \to C \to B \to D$.</p>
+      </div>
+
+      <div class="bloque-contenido">
+        <h3>Ejercicios de Práctica</h3>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 1.1:</strong> ¿Por qué el algoritmo de Dijkstra no garantiza el resultado correcto si el grafo contiene aristas con pesos negativos?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Dijkstra puede procesar grafos con ciclos siempre que no sean de peso negativo.')">Porque entra en un bucle infinito en presencia de cualquier ciclo.</button>
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Una vez que Dijkstra marca un vértice como visitado/permanente, asume que su distancia mínima fue hallada, lo cual se invalida si aparece una arista negativa posterior.')">Porque asume de forma ávida que la distancia a un nodo visitado ya es óptima y no la vuelve a relajar.</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'No depende de si el grafo es dirigido o no.')">Porque solo puede aplicarse sobre grafos dirigidos acíclicos (DAG).</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 1.2:</strong> ¿Cuál es la complejidad temporal del algoritmo de Floyd-Warshall en función del número de vértices $\vert{}V\vert{}$?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'O(|V|^2) corresponde a Dijkstra implementado con arreglos simples.')">$O(\vert{}V\vert{}^2)$</button>
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Evalúa 3 bucles anidados sobre la matriz de adyacencia de orden |V| x |V|.')">$O(\vert{}V\vert{}^3)$</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'O(|V| log |V|) es típico de algoritmos de ordenamiento.')">$O(\vert{}V\vert{} \log \vert{}V\vert{})$</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBTEMA 2 -->
+    <section class="seccion-tema">
+      <h2>2. Redes de distribución (Árbol de Expansión Mínima: Kruskal y Prim)</h2>
+      
+      <div class="bloque-contenido">
+        <h3>Explicación Matemática</h3>
+        <p>Para un grafo no dirigido conexo y pesado $G = (V, E, w)$, un Árbol de Expansión Mínima (MST) es un acíclico conectado $T = (V, E')$ tal que $E' \subseteq E$, $\vert{}E'\vert{} = \vert{}V\vert{} - 1$ y el costo $W(T) = \sum_{e \in E'} w(e)$ es mínimo.</p>
+        <ul>
+          <li><strong>Algoritmo de Kruskal:</strong> Ordena las aristas $E$ de manera no decreciente según su peso. Mediante la estructura de datos para conjuntos disjuntos (Union-Find), añade aristas al bosque si no conectan vértices que ya pertenecen a la misma componente conexa (evitando ciclos).</li>
+          <li><strong>Algoritmo de Prim:</strong> Mantiene un único árbol en crecimiento a partir de un nodo arbitrario. En cada paso selecciona la arista de corte de mínimo peso $e = (u, v)$ tal que $u \in V_{árbol}$ y $v \notin V_{árbol}$.</li>
+        </ul>
+      </div>
+
+      <div class="bloque-contenido bloque-ejemplo">
+        <h3>Ejemplo Aplicado</h3>
+        <p>Sea $V = \{1, 2, 3, 4\}$ con pesos $w(1,2)=10, w(1,3)=15, w(2,3)=5, w(2,4)=20, w(3,4)=8$.</p>
+        <p><strong>Construcción por Kruskal:</strong></p>
+        <ol>
+          <li>Aristas ordenadas: $(2,3):5, (3,4):8, (1,2):10, (1,3):15, (2,4):20$.</li>
+          <li>Insertar $(2,3)$ [peso 5]. Componentes: $\{1\}, \{2,3\}, \{4\}$.</li>
+          <li>Insertar $(3,4)$ [peso 8]. Componentes: $\{1\}, \{2,3,4\}$.</li>
+          <li>Insertar $(1,2)$ [peso 10]. Componentes: $\{1,2,3,4\}$. Se conectaron todos los vértices.</li>
+          <li>La arista $(1,3)$ se descarta por generar un ciclo $(1-2-3-1)$. Aristas del MST = $3 = \vert{}V\vert{}-1$.</li>
+        </ol>
+        <p>Peso total del MST = $5 + 8 + 10 = \mathbf{23}$.</p>
+      </div>
+
+      <div class="bloque-contenido">
+        <h3>Ejercicios de Práctica</h3>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 2.1:</strong> Según la propiedad fundamental de los árboles en Matemáticas Discretas, ¿cuántas aristas contiene un MST en un grafo conexo de $n$ vértices?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Un grafo conexo con n aristas contendría al menos un ciclo.')">$n$ aristas</button>
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Todo árbol simple conexo con n vértices posee exactamente n - 1 aristas.')">$n - 1$ aristas</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'El número de aristas de un árbol no depende de los grados máximos.')">$2n - 1$ aristas</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 2.2:</strong> ¿Qué estructura de datos permite a Kruskal verificar la formación de ciclos en tiempo casi constante $O(\alpha(V))$?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! La estructura Disjoint-Set / Union-Find con compresión de caminos y unión por rango es idónea para Kruskal.')">Estructura de Conjuntos Disjuntos (Union-Find)</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'La matriz de adyacencia requiere O(V) para buscar caminos.')">Matriz de Adyacencia</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Una pila se utiliza en recorridos DFS, no en la unión de componentes disjuntas de Kruskal.')">Pila LIFO</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBTEMA 3 -->
+    <section class="seccion-tema">
+      <h2>3. Circuitos Eulerianos y Hamiltonianos</h2>
+      
+      <div class="bloque-contenido">
+        <h3>Explicación Matemática</h3>
+        <ul>
+          <li><strong>Circuito Euleriano:</strong> Camino cerrado que pasa por cada <em>arista</em> de $G$ exactamente una vez. <strong>Teorema de Euler:</strong> Un grafo conexo $G$ tiene un circuito euleriano si y solo si el grado de todo vértice $v \in V$ es par ($\text{deg}(v) \equiv 0 \pmod 2$).</li>
+          <li><strong>Circuito Hamiltoniano:</strong> Camino cerrado que pasa por cada <em>vértice</em> de $G$ exactamente una vez. Determinar la existencia de un circuito hamiltoniano en un grafo general es un problema <strong>NP-completo</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="bloque-contenido bloque-ejemplo">
+        <h3>Ejemplo Aplicado</h3>
+        <p>Dado el grafo completo $K_4$ con vértices $\{A, B, C, D\}$:</p>
+        <p><strong>Análisis Euleriano:</strong> Cada vértice está conectado a los otros 3 nodos. Su grado es $\text{deg}(v) = 3$ (impar). Por el Teorema de Euler, **no posee circuito euleriano**.</p>
+        <p><strong>Análisis Hamiltoniano:</strong> La secuencia de vértices $A \to B \to C \to D \to A$ recorre los 4 vértices una sola vez sin repetirlos y regresa al origen. Por lo tanto, **posee un circuito hamiltoniano**.</p>
+      </div>
+
+      <div class="bloque-contenido">
+        <h3>Ejercicios de Práctica</h3>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 3.1:</strong> Un grafo conexo no dirigido tiene vértices con grados $\{4, 2, 2, 4, 2\}$. ¿Qué tipo de recorrido euleriano posee?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Todos los vértices tienen grado par (4,2,2,4,2), cumpliendo el Teorema de Euler para un circuito cerrado.')">Posee un Circuito Euleriano completo.</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Un camino euleriano abierto requiere exactamente dos vértices de grado impar.')">Solo posee un Camino Euleriano abierto, pero no circuito.</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'No hay grados impares que impidan el circuito.')">No posee ni camino ni circuito euleriano.</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 3.2:</strong> ¿A qué clase de complejidad computacional pertenece el problema de decisión de un Circuito Hamiltoniano en un grafo arbitrario?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Determinar circuitos eulerianos se resuelve en tiempo polinomial O(|E|), no el hamiltoniano.')">Clase P (Tiempo Polinomial)</button>
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Es uno de los 21 problemas NP-completos clásicos de Karp.')">Clase NP-Completo</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Existen algoritmos de verificación en tiempo polinomial dados los certificados.')">No Computable (Indecidible)</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Proyecto Final Tercer Corte - Matemáticas Discretas</p>
+  </footer>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matemáticas Discretas</title>
+  <link rel="stylesheet" href="style-tema.css">
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.htm" class="btn-volver">← Volver al Menú Principal</a>
+    <h1>Lógica Proposicional y Álgebra Booleana</h1>
+    <p>Tablas de verdad, leyes lógicas, mapas de Karnaugh y optimización de circuitos digitales.</p>
+  </header>
+
+  <main class="container">
+
+    <!-- SUBTEMA 1 -->
+    <section class="seccion-tema">
+      <h2>1. Simplificación de Circuitos Digitales y Mapas de Karnaugh</h2>
+      
+      <div class="bloque-contenido">
+        <h3>Explicación Matemática</h3>
+        <p>Un circuito digital realiza una función booleana $f: \{0, 1\}^n \to \{0, 1\}$. Mediante el **Álgebra de Boole** (retículo complementado distribuido) y teoremas como el **Teorema de De Morgan** o la ley de absorción $A + AB = A$, se busca reducir la expresión a su Forma Normal Disyuntiva (Suma de Mintérminos) mínima.</p>
+        <p>Los **Mapas de Karnaugh (K-Maps)** organizan la tabla de verdad en una cuadrícula bidimensional mediante **Código Gray** (donde celdas adyacentes difieren en solo $1$ bit), permitiendo aplicar visualmente el teorema de adyacencia $AB + A\bar{B} = A(B + \bar{B}) = A$.</p>
+      </div>
+
+      <div class="bloque-contenido bloque-ejemplo">
+        <h3>Ejemplo Aplicado</h3>
+        <p>Diseño de una alarma de seguridad con tres sensores $A$ (movimiento), $B$ (puerta) y $C$ (ventana). La alarma $F$ se activa si:</p>
+        $$F(A, B, C) = \sum m(3, 5, 6, 7) = \bar{A}BC + A\bar{B}C + AB\bar{C} + ABC$$
+        <p><strong>Simplificación algebraica:</strong></p>
+        <ol>
+          <li>Agrupar mintérminos: $ABC$ se combina con los otros tres términos.</li>
+          <li>$(\bar{A}BC + ABC) + (A\bar{B}C + ABC) + (AB\bar{C} + ABC)$</li>
+          <li>$BC(\bar{A}+A) + AC(\bar{B}+B) + AB(\bar{C}+C) = BC(1) + AC(1) + AB(1)$</li>
+        </ol>
+        <p>Expresión mínima optimizada: $F = AB + BC + AC$ (Activa si al menos dos sensores cualesquiera se activan en simultáneo).</p>
+      </div>
+
+      <div class="bloque-contenido">
+        <h3>Ejercicios de Práctica</h3>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 1.1:</strong> ¿Por qué el ordenamiento de las filas y columnas en un Mapa de Karnaugh debe seguir estrictamente el Código Gray?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! El código Gray asegura que celdas adyacentes difieran en un solo bit, permitiendo simplificar A*B + A*B\' = A.')">Garantiza que celdas contiguas difieran en exactamente un solo bit.</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'El código Gray no ordena en base decimal tradicional.')">Ordena las combinaciones en secuencia decimal estricta (0, 1, 2, 3).</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'No tiene relación con la conversión a binario directo.')">Facilita la conversión de binario a hexadecimal.</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 1.2:</strong> Aplicando las Leyes de De Morgan, ¿cuál es la expresión equivalente simplificada de la negación $\overline{A \cdot B}$?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Negar una conjunción cambia la operación a disyunción.')">Ā · B̄</button>
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Ley de De Morgan: (A·B)\' = Ā + B̄.')">Ā + B̄</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'La negación doble mantendría A + B.')">A + B</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Proyecto Final Tercer Corte - Matemáticas Discretas</p>
+  </footer>
+</body>
+</html>

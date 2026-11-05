@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matemáticas Discretas</title>
+  <link rel="stylesheet" href="style-tema.css">
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+
+  <header class="header">
+    <a href="index.htm" class="btn-volver">← Volver al Menú Principal</a>
+    <h1>Árboles y Compresión de Datos</h1>
+    <p>Estructuras de árboles binarios, algoritmos de Huffman y modelos de decisión.</p>
+  </header>
+
+  <main class="container">
+
+    <!-- SUBTEMA 1 -->
+    <section class="seccion-tema">
+      <h2>1. Algoritmo de Huffman para Compresión de Texto</h2>
+      
+      <div class="bloque-contenido">
+        <h3>Explicación Matemática</h3>
+        <p>Un árbol de Huffman es un árbol binario estricto de búsqueda de codificación de prefijo. Dado un alfabeto $\Sigma$ con frecuencias $f(c)$ para cada $c \in \Sigma$, el algoritmo construye un árbol $T$ que minimiza la longitud de texto esperada:</p>
+        $$L(T) = \sum_{c \in \Sigma} f(c) \cdot d_T(c)$$
+        <p>donde $d_T(c)$ es la profundidad (longitud de código en bits) del carácter $c$ en las hojas de $T$. Al cumplir la **propiedad de prefijo**, ningún código de un símbolo es prefijo de otro.</p>
+      </div>
+
+      <div class="bloque-contenido bloque-ejemplo">
+        <h3>Ejemplo Aplicado</h3>
+        <p>Cadena $S = \text{"AAAAABBC"}$. Frecuencias: $f(A)=5, f(B)=2, f(C)=1$. Total $= 8$ caracteres.</p>
+        <ol>
+          <li>Unir menores frecuencias: $f(B)=2$ y $f(C)=1 \implies f(BC)=3$.</li>
+          <li>Unir $f(A)=5$ y $f(BC)=3 \implies f(Raíz)=8$.</li>
+          <li>Asignar bits ($0$ izquierda, $1$ derecha): $A = 0$, $B = 10$, $C = 11$.</li>
+        </ol>
+        <p>Longitud comprimida: $(5 \times 1) + (2 \times 2) + (1 \times 2) = 5 + 4 + 2 = \mathbf{11\text{ bits}}$ (frente a $8 \times 8 = 64\text{ bits}$ en ASCII).</p>
+      </div>
+
+      <div class="bloque-contenido">
+        <h3>Ejercicios de Práctica</h3>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 1.1:</strong> Si un símbolo $X$ tiene una probabilidad/frecuencia extremadamente alta en comparación con otros símbolos, ¿dónde se posicionará en el árbol de Huffman?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Mayor frecuencia implica menor profundidad (cerca de la raíz), asignándole un código muy corto.')">Cerca de la raíz, obteniendo un código de menor longitud.</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Las hojas profundas se reservan para símbolos infrecuentes.')">En el nivel más profundo de las hojas.</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'La posición no es aleatoria, está determinada por la frecuencia.')">En una posición aleatoria dependiente del orden de lectura.</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 1.2:</strong> ¿Qué propiedad matemática impide que haya ambigüedad al decodificar un flujo continuo de bits en el algoritmo de Huffman?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'No utiliza marcadores especiales, aprovecha la estructura del árbol.')">El uso de marcadores nulos especiales entre letras.</button>
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Propiedad de Libre de Prefijo: ningún código de carácter es prefijo del código de otro carácter.')">La propiedad de Código de Prefijo (Prefix-free code).</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Los códigos tienen distintas longitudes según la profundidad.')">Que todos los códigos poseen idéntica longitud fija de bits.</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBTEMA 2 -->
+    <section class="seccion-tema">
+      <h2>2. Árboles de Decisión en Inteligencia Artificial</h2>
+      
+      <div class="bloque-contenido">
+        <h3>Explicación Matemática</h3>
+        <p>Un árbol de decisión es un acíclico dirigido $T = (V, E)$ con una raíz única $r \in V$. Cada nodo interno $v \in V_{int}$ aplica un predicado lógico $P_v: X \to \{\text{Verdadero}, \text{Falso}\}$ sobre el espacio de características $X$.</p>
+        <p>Las hojas $L \subset V$ contienen las clases $C$. El proceso divide recursivamente el espacio mediante medidas de pureza discreta como la **Entropía de Shannon** $H(S)$ o la **Impureza Gini**:</p>
+        $$H(S) = - \sum_{i=1}^{k} p_i \log_2(p_i)$$
+      </div>
+
+      <div class="bloque-contenido bloque-ejemplo">
+        <h3>Ejemplo Aplicado</h3>
+        <p>Evaluación de riesgo crediticio con $X = \{\text{Ingresos}, \text{Historial}\}$:</p>
+        <ul>
+          <li><strong>Nodo Raíz:</strong> ¿$\text{Ingresos} > \$3000$?
+            <ul>
+              <li><strong>Sí:</strong> Clasificación = <code>Aprobado</code> (Hoja).</li>
+              <li><strong>No:</strong> Evaluar Nodo Interno 2.</li>
+            </ul>
+          </li>
+          <li><strong>Nodo Interno 2:</strong> ¿$\text{Historial} == \text{"Bueno"}$?
+            <ul>
+              <li><strong>Sí:</strong> Clasificación = <code>Aprobado</code> (Hoja).</li>
+              <li><strong>No:</strong> Clasificación = <code>Rechazado</code> (Hoja).</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bloque-contenido">
+        <h3>Ejercicios de Práctica</h3>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 2.1:</strong> Si un nodo en un árbol de decisión tiene un conjunto de datos perfectamente puro (todos pertenecen a la misma clase), ¿cuál es su valor de Entropía de Shannon $H(S)$?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! -1 * log2(1) = 0. La incertidumbre es nula cuando no hay mezcla de clases.')">H(S) = 0</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'H(S)=1 ocurre cuando hay una mezcla equitativa 50/50 de dos clases.')">H(S) = 1</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'La entropía no toma valores negativos.')">H(S) = -1</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+
+        <div class="trivia-box">
+          <p class="pregunta"><strong>Ejercicio 2.2:</strong> ¿Qué representan los nodos hoja en la estructura formal de un árbol de decisión?</p>
+          <div class="opciones">
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'Las pruebas sobre atributos se ubican en los nodos internos.')">Las variables o condiciones lógicas a evaluar.</button>
+            <button class="opcion" onclick="verificarRespuesta(this, true, '¡Correcto! Las hojas asignan la etiqueta de clase final o valor predicho.')">Las decisiones o clasificaciones finales del modelo.</button>
+            <button class="opcion" onclick="verificarRespuesta(this, false, 'El origen es la raíz del árbol.')">El punto inicial de evaluación del sistema.</button>
+          </div>
+          <div class="feedback"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Proyecto Final Tercer Corte - Matemáticas Discretas</p>
+  </footer>
+
+</body>
+</html>
