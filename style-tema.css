@@ -1,0 +1,364 @@
+/* Estilos generales */
+:root {
+  --primary-color: #60a5fa;
+  --primary-hover: #3b82f6;
+  --bg-color: #0f172a;
+  --header-bg: #1e293b;
+  --card-bg: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, '-apple-system', BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Encabezado */
+.header {
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.btn-volver {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-volver:hover {
+  background-color: var(--border-color);
+  color: #ffffff;
+}
+
+.header h1 {
+  font-size: 2.25rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* Contenedor */
+.container {
+  max-width: 900px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  flex: 1;
+}
+
+.seccion-tema {
+  margin-bottom: 3.5rem;
+  background-color: #111827;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+
+.seccion-tema h2 {
+  font-size: 1.6rem;
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Bloques de contenido */
+.bloque-contenido {
+  margin-bottom: 1.5rem;
+}
+
+.bloque-contenido h3 {
+  font-size: 1.2rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.bloque-contenido p, .bloque-contenido li {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.bloque-contenido ul, .bloque-contenido ol {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Ejemplo resaltado */
+.bloque-ejemplo {
+  background-color: var(--card-bg);
+  border-left: 4px solid var(--primary-color);
+  padding: 1.25rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+/* Preguntas / Trivias */
+.trivia-box {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+}
+
+.pregunta {
+  color: #ffffff !important;
+  margin-bottom: 0.75rem;
+}
+
+.opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.opcion {
+  background-color: #0f172a;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.opcion:hover:not(:disabled) {
+  border-color: var(--primary-color);
+  background-color: #1e293b;
+}
+
+.opcion:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.opcion.correcta {
+  background-color: #065f46 !important;
+  border-color: #10b981 !important;
+  color: #ffffff;
+}
+
+.opcion.incorrecta {
+  background-color: #991b1b !important;
+  border-color: #ef4444 !important;
+  color: #ffffff;
+}
+
+.feedback {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.feedback-correcto {
+  color: #34d399;
+}
+
+.feedback-incorrecto {
+  color: #f87171;
+}
+
+/* Pie de página */
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: #020617;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+}
+
+* Paleta de colores verde para Criptografía */
+body.tema-cripto {
+  --primary-color: #10b981;
+  --primary-hover: #059669;
+}
+
+
+body.tema-cripto .seccion-tema {
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+
+/* ------CONFIGURACIÓN DE COLORES DINÁMICOS POR TEMA------ */
+
+/* Aplicar la variable de color a títulos, viñetas y texto resaltado */
+body[class^="tema-"] h1,
+body[class^="tema-"] h2,
+body[class^="tema-"] h3,
+body[class^="tema-"] strong,
+body[class^="tema-"] .lista-subtemas li::before {
+  color: var(--primary-color);
+}
+
+/* ------PALETAS ESPECÍFICAS------ */
+
+/* Tema 1: Grafos (Azul Claro) */
+body.tema-grafos {
+  --primary-color: #38bdf8;
+  --primary-hover: #7dd3fc;
+}
+body.tema-grafos .seccion-tema {
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+/* Tema 2: Criptografía (Verde) */
+body.tema-cripto {
+  --primary-color: #34d399;
+  --primary-hover: #10b981;
+}
+body.tema-cripto .seccion-tema {
+  border-color: rgba(52, 211, 153, 0.3);
+  background-color: #062319;
+}
+body.tema-cripto .bloque-ejemplo,
+body.tema-cripto .trivia-box {
+  background-color: #0b3828;
+}
+
+/* Tema 3: Árboles (Naranja) */
+body.tema-arboles {
+  --primary-color: #fb923c;
+  --primary-hover: #f97316;
+}
+body.tema-arboles .seccion-tema {
+  border-color: rgba(251, 146, 60, 0.3);
+}
+
+/* Tema 4: Lógica Proposicional (Morado) */
+body.tema-logica {
+  --primary-color: #c084fc;
+  --primary-hover: #a855f7;
+}
+body.tema-logica .seccion-tema {
+  border-color: rgba(192, 132, 252, 0.3);
+}
+/*------DINAMISMO Y ANIMACIONES (ÚNICAMENTE CSS)------ */
+
+/* 1. Animación suave de entrada para la página */
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container {
+  animation: fadeInPage 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 2. Efecto de brillo/resplandor vivo en los títulos */
+.header h1 {
+  transition: text-shadow 0.3s ease;
+}
+
+body[class^="tema-"] .header h1 {
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* 3. Animación de elevación e iluminación en las tarjetas de contenido */
+.seccion-tema {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s ease, 
+              border-color 0.3s ease;
+}
+
+.seccion-tema:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* 4. Interactividad dinámica en los botones de trivias */
+.opcion {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.opcion:hover:not(:disabled) {
+  transform: translateX(6px);
+  box-shadow: -4px 0 0 0 var(--primary-color);
+}
+
+.opcion:active:not(:disabled) {
+  transform: translateX(3px) scale(0.99);
+}
+
+/* 5. Efecto de pulso interactivo para el botón "Volver al Menú" */
+.btn-volver {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-volver:hover {
+  transform: translateX(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-color: var(--primary-color);
+}
+
+/* 6. Barra lateral animada en los bloques de ejemplo */
+.bloque-ejemplo {
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bloque-ejemplo:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 7. Transición de color suave para fórmulas e imágenes */
+p, li, h2, h3, button, a {
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+
+
+
+
+
+@media (max-width: 768px) {
+  .header {
+    padding-top: 4rem;
+  }
+  .btn-volver {
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
